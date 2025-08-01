@@ -22,7 +22,7 @@ class Config:
     
     # Server Configuration
     HOST = os.getenv('HOST', '0.0.0.0')
-    PORT = int(os.getenv('PORT', '5000'))
+    PORT = int(os.getenv('PORT', '5013'))
     
     # Logging Configuration
     LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO').upper()
