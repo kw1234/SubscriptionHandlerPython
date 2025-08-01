@@ -173,7 +173,7 @@ FLASK_ENV=development          # development, production, or testing
 
 # Server Settings
 HOST=0.0.0.0                  # Server host
-PORT=5000                     # Server port
+PORT=5013                     # Server port
 
 # Application Settings
 DATA_FILE=subscription_data.json           # Data storage file
@@ -206,7 +206,7 @@ PORT=8080 python server.py
 ```
 🚀 Starting development server...
 ✅ Subscription service started
-🌐 Server starting on http://0.0.0.0:5000
+🌐 Server starting on http://0.0.0.0:5013
 📝 Environment: development
 🔧 Debug mode: True
 💾 Data file: dev_subscription_data.json
@@ -220,7 +220,7 @@ PORT=8080 python server.py
   Coverage Report:   GET  /subscription/coverage/{user_id}
   Admin - All Users: GET  /admin/users
   
-🔗 Quick test: curl http://localhost:5000/health
+🔗 Quick test: curl http://localhost:5013/health
 🛑 Press Ctrl+C to stop
 ```
 
@@ -228,7 +228,7 @@ PORT=8080 python server.py
 
 ```bash
 # Health check
-curl http://localhost:5000/health
+curl http://localhost:5013/health
 
 # Expected response
 {
@@ -269,7 +269,7 @@ All responses follow this structure:
 #### 1. Purchase Subscription
 
 ```bash
-curl -X POST http://localhost:5000/subscription/purchase \
+curl -X POST http://localhost:5013/subscription/purchase \
   -H "Content-Type: application/json" \
   -d '{"user_id": "user123"}'
 ```
@@ -296,7 +296,7 @@ curl -X POST http://localhost:5000/subscription/purchase \
 #### 2. Check Subscription Status
 
 ```bash
-curl http://localhost:5000/subscription/status/user123
+curl http://localhost:5013/subscription/status/user123
 ```
 
 **Response:**
@@ -317,7 +317,7 @@ curl http://localhost:5000/subscription/status/user123
 #### 3. Issue Off Command
 
 ```bash
-curl -X POST http://localhost:5000/subscription/off \
+curl -X POST http://localhost:5013/subscription/off \
   -H "Content-Type: application/json" \
   -d '{"user_id": "user123"}'
 ```
@@ -342,7 +342,7 @@ curl -X POST http://localhost:5000/subscription/off \
 #### 4. Get Coverage Report
 
 ```bash
-curl "http://localhost:5000/subscription/coverage/user123?start_date=2025-07-30T12:00:00&end_date=2025-07-31T12:00:00"
+curl "http://localhost:5013/subscription/coverage/user123?start_date=2025-07-30T12:00:00&end_date=2025-07-31T12:00:00"
 ```
 
 **Response:**
@@ -364,19 +364,19 @@ curl "http://localhost:5000/subscription/coverage/user123?start_date=2025-07-30T
 
 #### Get All Users
 ```bash
-curl http://localhost:5000/admin/users
+curl http://localhost:5013/admin/users
 ```
 
 #### Service Management
 ```bash
 # Get service status
-curl http://localhost:5000/admin/service/status
+curl http://localhost:5013/admin/service/status
 
 # Start service
-curl -X POST http://localhost:5000/admin/service/start
+curl -X POST http://localhost:5013/admin/service/start
 
 # Stop service
-curl -X POST http://localhost:5000/admin/service/stop
+curl -X POST http://localhost:5013/admin/service/stop
 ```
 
 ## 🧪 Testing
@@ -397,7 +397,7 @@ python api_examples.py curl
 ### Manual Testing Workflow
 
 1. **Start server**: `python server.py`
-2. **Health check**: `curl http://localhost:5000/health`
+2. **Health check**: `curl http://localhost:5013/health`
 3. **Purchase subscription**: Test with `api_examples.py`
 4. **Monitor logs**: Check `subscription_api.log`
 5. **Test edge cases**: Invalid user IDs, failed payments, etc.
@@ -406,14 +406,14 @@ python api_examples.py curl
 
 ```bash
 # Valid user flow
-curl -X POST http://localhost:5000/subscription/purchase -H "Content-Type: application/json" -d '{"user_id": "test_user"}'
-curl http://localhost:5000/subscription/status/test_user
-curl -X POST http://localhost:5000/subscription/off -H "Content-Type: application/json" -d '{"user_id": "test_user"}'
+curl -X POST http://localhost:5013/subscription/purchase -H "Content-Type: application/json" -d '{"user_id": "test_user"}'
+curl http://localhost:5013/subscription/status/test_user
+curl -X POST http://localhost:5013/subscription/off -H "Content-Type: application/json" -d '{"user_id": "test_user"}'
 
 # Error cases
-curl http://localhost:5000/subscription/status/nonexistent_user  # 404
-curl -X POST http://localhost:5000/subscription/purchase -H "Content-Type: application/json" -d '{"user_id": ""}'  # 400
-curl -X POST http://localhost:5000/subscription/purchase -H "Content-Type: application/json" -d '{}'  # 400
+curl http://localhost:5013/subscription/status/nonexistent_user  # 404
+curl -X POST http://localhost:5013/subscription/purchase -H "Content-Type: application/json" -d '{"user_id": ""}'  # 400
+curl -X POST http://localhost:5013/subscription/purchase -H "Content-Type: application/json" -d '{}'  # 400
 ```
 
 ## 🚀 Production Deployment
@@ -427,7 +427,7 @@ export SECRET_KEY=your-production-secret-key-here
 export DATA_FILE=/app/data/subscription_data.json
 export LOG_LEVEL=INFO
 export HOST=0.0.0.0
-export PORT=5000
+export PORT=5013
 ```
 
 ### Docker Deployment
@@ -449,11 +449,11 @@ COPY . .
 RUN mkdir -p /app/data /app/logs
 
 # Expose port
-EXPOSE 5000
+EXPOSE 5013
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:5000/health || exit 1
+  CMD curl -f http://localhost:5013/health || exit 1
 
 # Run application
 CMD ["python", "server.py"]
@@ -462,7 +462,7 @@ CMD ["python", "server.py"]
 Build and run:
 ```bash
 docker build -t subscription-api .
-docker run -p 5000:5000 -v ./data:/app/data subscription-api
+docker run -p 5013:5013 -v ./data:/app/data subscription-api
 ```
 
 ### Docker Compose
@@ -474,7 +474,7 @@ services:
   subscription-api:
     build: .
     ports:
-      - "5000:5000"
+      - "5013:5013"
     environment:
       - FLASK_ENV=production
       - SECRET_KEY=${SECRET_KEY}
@@ -484,7 +484,7 @@ services:
       - ./logs:/app/logs
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:5013/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -544,7 +544,7 @@ stderr_logfile=/var/log/subscription-api-error.log
 |----------|---------|-------------|
 | `FLASK_ENV` | `production` | Environment mode |
 | `HOST` | `0.0.0.0` | Server bind address |
-| `PORT` | `5000` | Server port |
+| `PORT` | `5013` | Server port |
 | `SECRET_KEY` | *(required in production)* | Flask secret key |
 | `DATA_FILE` | `subscription_data.json` | Data storage file path |
 | `RENEWAL_INTERVAL_HOURS` | `24` | Hours between renewals |
@@ -594,10 +594,10 @@ PRODUCTION Configuration:
 
 ```bash
 # Health endpoint
-curl http://localhost:5000/health
+curl http://localhost:5013/health
 
 # Admin status
-curl http://localhost:5000/admin/service/status
+curl http://localhost:5013/admin/service/status
 
 # Response includes:
 # - Service running status
@@ -649,7 +649,7 @@ curl http://localhost:5000/admin/service/status
 #### Server won't start
 ```bash
 # Check port availability
-netstat -tulpn | grep :5000
+netstat -tulpn | grep :5013
 
 # Check permissions
 ls -la subscription_data.json
@@ -846,7 +846,7 @@ Import the following endpoints into Postman:
 1. **Check logs**: `tail -f subscription_api.log`
 2. **Validate config**: `python config.py`
 3. **Test API**: `python api_examples.py test`
-4. **Health check**: `curl http://localhost:5000/health`
+4. **Health check**: `curl http://localhost:5013/health`
 
 ### Common Commands
 

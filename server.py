@@ -48,7 +48,7 @@ def main():
     
     # Get server configuration
     host = os.getenv('HOST', '0.0.0.0')
-    port = int(os.getenv('PORT', '5000'))
+    port = int(os.getenv('PORT', '5013'))
     debug = env == 'development'
     
     print(f"🌐 Server starting on http://{host}:{port}")
@@ -66,7 +66,7 @@ def main():
     print("  Admin - Start:     POST /admin/service/start")
     print("  Admin - Stop:      POST /admin/service/stop")
     print("  Admin - Status:    GET  /admin/service/status")
-    print("\n🔗 Quick test: curl http://localhost:5000/health")
+    print("\n🔗 Quick test: curl http://localhost:5013/health")
     print("🛑 Press Ctrl+C to stop\n")
     
     try:
